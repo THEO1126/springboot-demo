@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="71ea3bd7-a029-4a8f-8337-09e776763aef" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="/Applications/apache-maven-3.8.4" />
+        <option name="userSettingsFile" value="/Applications/apache-maven-3.8.4/conf/settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2KFcDP99hDfrOPBN9lsfIeoGeou" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/mapper" />
+    <property name="settings.editor.selected.configurable" value="preferences.applicationServers" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/mapper" />
+      <recent name="$PROJECT_DIR$/src/main/java/cn/edu/guet/springbootdemo/bean" />
+      <recent name="$PROJECT_DIR$/src/main/java/cn/edu/guet/springbootdemo/config" />
+      <recent name="$PROJECT_DIR$/src/main/java/cn/edu/guet/springbootdemo/mapper" />
+      <recent name="$PROJECT_DIR$/src/main/java/cn/edu/guet/springbootdemo" />
+    </key>
+  </component>
+  <component name="RunManager" selected="JUnit.SpringbootDemoApplicationTests.testGetAll">
+    <configuration name="SpringbootDemoApplicationTests.testGetAll" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springboot-demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.edu.guet.springbootdemo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cn.edu.guet.springbootdemo" />
+      <option name="MAIN_CLASS_NAME" value="cn.edu.guet.springbootdemo.SpringbootDemoApplicationTests" />
+      <option name="METHOD_NAME" value="testGetAll" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootDemoApplicationTests.testPer" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springboot-demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.edu.guet.springbootdemo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cn.edu.guet.springbootdemo" />
+      <option name="MAIN_CLASS_NAME" value="cn.edu.guet.springbootdemo.SpringbootDemoApplicationTests" />
+      <option name="METHOD_NAME" value="testPer" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootDemoApplicationTests.testSaveBook" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="springboot-demo" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cn.edu.guet.springbootdemo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="cn.edu.guet.springbootdemo" />
+      <option name="MAIN_CLASS_NAME" value="cn.edu.guet.springbootdemo.SpringbootDemoApplicationTests" />
+      <option name="METHOD_NAME" value="testSaveBook" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootDemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="springboot-demo" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.edu.guet.springbootdemo.SpringbootDemoApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.SpringbootDemoApplicationTests.testGetAll" />
+        <item itemvalue="JUnit.SpringbootDemoApplicationTests.testPer" />
+        <item itemvalue="JUnit.SpringbootDemoApplicationTests.testSaveBook" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="71ea3bd7-a029-4a8f-8337-09e776763aef" name="Changes" comment="" />
+      <created>1673573656218</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1673573656218</updated>
+      <workItem from="1673573659371" duration="4927000" />
+      <workItem from="1673681814348" duration="3658000" />
+      <workItem from="1673745921764" duration="157000" />
+      <workItem from="1675044793905" duration="10712000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

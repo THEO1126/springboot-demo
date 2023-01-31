@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.guet.springbootdemo.mapper.RoleMapper">
+
+    <resultMap id="roleMap" type="cn.edu.guet.springbootdemo.bean.Role">
+        <result property="roleId" column="role_id"/>
+        <result property="roleName" column="role_name"/>
+        <collection property="permissionList" ofType="cn.edu.guet.springbootdemo.bean.Permission">
+            <result property="perId" column="per_id"/>
+            <result property="name" column="name"/>
+            <result property="url" column="url"/>
+            <result property="url" column="url"/>
+            <result property="target" column="target"/>
+            <result property="isParent" column="isparent"/>
+            <result property="parentId" column="parent_id"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="getRoleList" resultMap="roleMap">
+            select r.*, p.*
+            FROM roles r,role_permission rp,permissions p
+            WHERE r.role_id=rp.role_id
+            AND rp.per_id=p.per_id
+    </select>
+
+</mapper>

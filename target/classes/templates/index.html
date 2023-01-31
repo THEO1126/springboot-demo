@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="/jquery-3.6.0.js"></script>
+</head>
+<body>
+<button id="saveBtn">保存测试</button>
+<button id="getBtn">获取测试</button>
+<script>
+
+    $(document).ready(function (){
+        $("#saveBtn").click(function (){
+            console.log("保存测试")
+            $.post("saveBook.do", {
+                "bookName": "MySQL从入门到跑路",
+                "author": "梁伟峰",
+                "price": 66.6,
+                "publisher": "广西师范大学出版社"
+            }, function (data) {
+                console.log("保存图书的结果：", data)
+            })
+        })
+
+        $("#getBtn").click(function (){
+            console.log("获取测试")
+            $.get("getAllBook.do",
+                function (data) {
+                console.log("查询图书的结果：", data)
+            })
+        })
+    })
+
+</script>
+</body>
+</html>
