@@ -4,33 +4,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @Author liwei
- * @Date 2022/12/29 10:59
+ * @Author 李冰冰
+ * @Date 2023/2/1
  * @Version 1.0
  */
-public class Permission {
 
+public class Permission {
     private int perId;
     private String name;
     private String url;
-    private String target;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     private String icon;
-    private String isParent;
-    private Integer parentId;
+    private int type;
+    private int parentId;
+    private String parentName;
+
     private List<Permission> childs=new ArrayList<>();
-    //private Permission parent;
 
     public Permission() {
     }
 
-    public Permission(int perId, String name, String url, String target, String icon, String isParent, Integer parentId, List<Permission> childs) {
+    public Permission(int perId, String name, String url, String icon, int type, int parentId, String parentName, List<Permission> childs) {
         this.perId = perId;
         this.name = name;
         this.url = url;
-        this.target = target;
         this.icon = icon;
-        this.isParent = isParent;
+        this.type = type;
         this.parentId = parentId;
+        this.parentName = parentName;
         this.childs = childs;
     }
 
@@ -58,14 +67,6 @@ public class Permission {
         this.url = url;
     }
 
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
     public String getIcon() {
         return icon;
     }
@@ -74,20 +75,20 @@ public class Permission {
         this.icon = icon;
     }
 
-    public String getIsParent() {
-        return isParent;
-    }
-
-    public void setIsParent(String isParent) {
-        this.isParent = isParent;
-    }
-
-    public Integer getParentId() {
+    public int getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(int parentId) {
         this.parentId = parentId;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
     }
 
     public List<Permission> getChilds() {

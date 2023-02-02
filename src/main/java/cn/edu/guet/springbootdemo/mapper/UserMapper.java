@@ -19,13 +19,4 @@ public interface UserMapper {
     User login(User user);
     boolean checkUsername(String username);
     List<Permission> getPermissionByUserId(int userId);
-    List<User> getUserList();
-    int insertUser(String username,String password) throws SQLException;
-    int insertUserRole(String username,int roleId) throws SQLException;
-
-    int deleteUser(int userId) throws SQLException;
-    int deleteUserRole(int userId) throws SQLException;
-
-    List<User> searchUserList(String username,int roleId);
-
 }

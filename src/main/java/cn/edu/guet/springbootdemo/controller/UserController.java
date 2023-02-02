@@ -44,16 +44,21 @@ public class UserController {
         List<Permission> permissionList = null;
         Gson gson =new Gson();
         permissionList = userService.getPermissionByUserId(userId);
+        System.out.println(permissionList);
         List<Permission> childPermissionList = new ArrayList<>();
+
+
+        // 二级菜单
         for (Permission child : permissionList){
-            if (child.getParentId()!=null){
+            if (child.getParentId()!=0&&child.getType()==1){
+                System.out.println("二级菜单名字"+child.getName());
                 childPermissionList.add(child);
             }
         }
 
         for (Permission permission:permissionList){
             for (Permission childPer:childPermissionList){
-                if (childPer.getParentId().equals(permission.getPerId())){
+                if (childPer.getParentId()==permission.getPerId()){
                     permission.getChilds().add(childPer);
                 }
             }
@@ -61,12 +66,13 @@ public class UserController {
 
         List<Permission> finalPermissionList = new ArrayList<>();
         for (Permission permission:permissionList){
-            if (permission.getParentId()==null){
+            if (permission.getParentId()==0){
                 finalPermissionList.add(permission);
             }
         }
 
         return new Result(200,"获取权限成功",finalPermissionList);
+
     }
 
 }

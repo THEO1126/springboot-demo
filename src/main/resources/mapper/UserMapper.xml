@@ -6,39 +6,26 @@
     <!--  resultMap 配置  -->
     <resultMap id="loginMap" type="cn.edu.guet.springbootdemo.bean.User">
         <!--     id 是主键   -->
-        <id property="userId" column="user_id"/>
-        <result property="username" column="username"/>
+        <id property="userId" column="id"/>
+        <result property="username" column="name"/>
         <result property="password" column="password"/>
     </resultMap>
 
-
-    <resultMap id="userMap" type="cn.edu.guet.springbootdemo.bean.User">
-        <id property="userId" column="user_id"/>
-        <result property="username" column="username"/>
-        <result property="password" column="password"/>
-        <collection property="role" ofType="cn.edu.guet.springbootdemo.bean.Role">
-            <id property="roleId" column="role_id"/>
-            <result property="roleName" column="role_name"/>
-            <collection property="permissionList" ofType="cn.edu.guet.springbootdemo.bean.Permission">
-                <id property="perId" column="per_id"/>
-                <result property="name" column="name"/>
-                <result property="url" column="url"/>
-                <result property="target" column="target"/>
-                <result property="isParent" column="isparent"/>
-                <result property="parentId" column="parent_id"/>
-            </collection>
-        </collection>
-    </resultMap>
 
     <resultMap id="permissionMap" type="cn.edu.guet.springbootdemo.bean.Permission">
-        <result property="perId" column="per_id"/>
+        <id property="perId" column="id"/>
+        <result property="name" column="name"/>
         <result property="parentId" column="parent_id"/>
+        <result property="parentName" column="parent_name"/>
+        <result property="type" column="type"/>
+        <result property="url" column="url"/>
+        <result property="icon" column="icon"/>
     </resultMap>
 
 <!--  查询语句  -->
     <!--  登录  -->
-    <select id="login" resultMap="loginMap" parameterType="User">
-        SELECT * FROM users WHERE username=#{username} AND password=#{password}
+    <select id="login" resultMap="loginMap" parameterType="cn.edu.guet.springbootdemo.bean.User">
+        SELECT * FROM sys_user WHERE name=#{username} AND password=#{password}
     </select>
 
     <!--  检查用户名: 检查记录是否存在，并返回布尔值   1:ture 0:false -->
@@ -49,66 +36,14 @@
 
     <!--  根据id获取权限  -->
     <select id="getPermissionByUserId" resultMap="permissionMap" parameterType="int">
-        SELECT p.*
-        FROM user_role ur,role_permission rp,permission p
-        WHERE ur.role_id=rp.role_id
-        AND rp.per_id=p.per_id AND ur.user_id=#{userId}
+        SELECT distinct sm.*
+        FROM sys_user su,sys_user_role sur,sys_role sr,sys_role_menu srm,sys_menu sm
+        WHERE su.id=sur.user_id
+          AND sur.role_id=sr.id
+          AND sr.id=srm.role_id
+          AND srm.menu_id=sm.id
+          AND su.id=#{userId}
     </select>
 
-    <!-- 获取用户列表 用户、角色、权限 -->
-    <select id="getUserList" resultMap="userMap">
-            SELECT u.*,r.*,p.*
-            FROM users u,user_role ur,roles r,role_permission rp,permissions p
-            WHERE u.USER_ID=ur.USER_ID
-            AND ur.role_id=r.role_id
-            AND r.role_id=rp.role_id
-            AND rp.per_id=p.per_id
-    </select>
-
-
-<!--  插入语句  -->
-    <!--  插入用户 插入成功返回主键 -->
-    <insert id="insertUser">
-        INSERT INTO users(username,password) VALUES(#{username},#{password})
-    </insert>
-
-    <!--  给用户插入角色  插入成功默认返回被影响的行数 -->
-    <insert id="insertUserRole">
-        INSERT INTO user_role(user_id,role_id) VALUES(
-             (SELECT user_id
-              FROM users
-              WHERE username=#{username}),
-             #{roleId}
-         )
-    </insert>
-
-
-<!--  删除语句  -->
-    <!-- 删除用户的角色类型  -->
-    <delete id="deleteUserRole">
-        DELETE FROM user_role  WHERE user_id=#{userId}
-    </delete>
-    <!--  删除用户  -->
-    <delete id="deleteUser">
-        DELETE FROM users WHERE user_id=#{userId}
-    </delete>
-
-
-<!-- 动态sql -->
-    <!--  查询功能 模糊查询  -->
-    <select id="searchUserList" resultMap="userMap">
-        SELECT u.user_id,username,password,r.role_id,role_name,p.*
-        FROM users u,user_role ur,roles r,role_permission rp,permissions p
-        WHERE u.USER_ID=ur.USER_ID
-        AND ur.role_id=r.role_id
-        AND r.role_id=rp.role_id
-        AND rp.per_id=p.per_id
-        <if test="username!=null">
-            and username LIKE CONCAT('%',#{username},'%')
-        </if>
-        <if test="roleId!=-1">
-            and r.role_id=#{roleId}
-        </if>
-    </select>
 
 </mapper>
