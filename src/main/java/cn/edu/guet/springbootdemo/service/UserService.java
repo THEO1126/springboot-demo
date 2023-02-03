@@ -18,7 +18,7 @@ public interface UserService {
     boolean checkUsername(String username);// 检查用户名
     List<Permission> getPermissionByUserId(int userId); // 获取权限菜单
 
-//    List<User> getUserList();// 用户列表
+    List<User> getUserList();// 员工列表
 //
 //    boolean insertUser(String username, String password, int roleId);//插入用户
 //

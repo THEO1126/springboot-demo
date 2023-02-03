@@ -35,5 +35,9 @@ public class UserServiceImpl implements UserService {
         return userMapper.getPermissionByUserId(userId);
     }
 
+    @Override
+    public List<User> getUserList() {
+        return userMapper.getUserList();
+    }
 
 }

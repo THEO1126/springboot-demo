@@ -19,4 +19,5 @@ public interface UserMapper {
     User login(User user);
     boolean checkUsername(String username);
     List<Permission> getPermissionByUserId(int userId);
+    List<User> getUserList();
 }

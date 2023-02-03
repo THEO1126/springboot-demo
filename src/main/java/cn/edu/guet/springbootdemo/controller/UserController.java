@@ -32,9 +32,9 @@ public class UserController {
     public Result checkUsername(String username){
         boolean result=userService.checkUsername(username);
         if(result){
-            return new Result(100, true);
+            return new Result(200, true);
         }else{
-            return new Result(101,false);
+            return new Result(201,false);
         }
 
     }
@@ -42,12 +42,8 @@ public class UserController {
     @RequestMapping("/getPermissionByUserId")
     public Result getPermissionByUserId(int userId){
         List<Permission> permissionList = null;
-        Gson gson =new Gson();
         permissionList = userService.getPermissionByUserId(userId);
-        System.out.println(permissionList);
         List<Permission> childPermissionList = new ArrayList<>();
-
-
         // 二级菜单
         for (Permission child : permissionList){
             if (child.getParentId()!=0&&child.getType()==1){
@@ -55,7 +51,6 @@ public class UserController {
                 childPermissionList.add(child);
             }
         }
-
         for (Permission permission:permissionList){
             for (Permission childPer:childPermissionList){
                 if (childPer.getParentId()==permission.getPerId()){
@@ -63,16 +58,22 @@ public class UserController {
                 }
             }
         }
-
         List<Permission> finalPermissionList = new ArrayList<>();
         for (Permission permission:permissionList){
             if (permission.getParentId()==0){
                 finalPermissionList.add(permission);
             }
         }
-
         return new Result(200,"获取权限成功",finalPermissionList);
-
     }
 
+    @RequestMapping("/getUserList")
+    public Result getUserList(){
+        List<User> userList=userService.getUserList();
+        if (userList!=null) {
+            return new Result(200, "成功", userList);
+        }else{
+            return new Result(201,"失败",null);
+        }
+    }
 }
