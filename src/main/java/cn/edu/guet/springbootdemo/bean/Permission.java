@@ -13,6 +13,11 @@ public class Permission {
     private int perId;
     private String name;
     private String url;
+    private String icon;
+    private int type;
+    private int parentId;
+    private String parentName;
+    private List<Permission> childs=new ArrayList<>();
 
     public int getType() {
         return type;
@@ -21,13 +26,6 @@ public class Permission {
     public void setType(int type) {
         this.type = type;
     }
-
-    private String icon;
-    private int type;
-    private int parentId;
-    private String parentName;
-
-    private List<Permission> childs=new ArrayList<>();
 
     public Permission() {
     }

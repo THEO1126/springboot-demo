@@ -76,6 +76,12 @@ public class UserController {
         }
     }
 
+    @RequestMapping("/getUserListTotalPage")
+    public Result getUserListTotalPage(){
+        int userListTotalPage=userService.getUserListTotalPage();
+        return new Result(200, "成功", userListTotalPage);
+    }
+
     @RequestMapping("/getUserListByPage")
     public Result getUserListByPage(int currentPage, int pageSize){
         int fromIndex=(currentPage-1)*pageSize;

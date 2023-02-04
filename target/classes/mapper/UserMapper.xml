@@ -5,19 +5,27 @@
 
     <!--  resultMap 配置  -->
     <resultMap id="loginMap" type="cn.edu.guet.springbootdemo.bean.User">
-        <!--     id 是主键   -->
-        <id property="userId" column="id"/>
+        <result property="userId" column="id"/>
         <result property="username" column="name"/>
         <result property="password" column="password"/>
     </resultMap>
 
     <resultMap id="userMap" type="cn.edu.guet.springbootdemo.bean.User">
-        <id property="userId" column="id"/>
-        <result property="username" column="name"/>
+        <result property="userId" column="userId"/>
+        <result property="username" column="username"/>
         <result property="nickName" column="nick_name"/>
         <result property="homeAddress" column="home_address"/>
         <result property="onboardingTime" column="onboarding_time"/>
         <result property="departureTime" column="departure_time"/>
+        <result property="identity" column="identity"/>
+        <result property="status" column="status"/>
+        <result property="mobile" column="mobile"/>
+        <result property="age" column="age"/>
+        <result property="password" column="password"/>
+        <collection property="roleList" ofType="cn.edu.guet.springbootdemo.bean.Role">
+            <result property="roleId" column="roleId"/>
+            <result property="roleName" column="roleName"/>
+        </collection>
     </resultMap>
 
 
@@ -60,15 +68,24 @@
 
 <!--  获取员工列表  -->
     <select id="getUserList" resultMap="userMap">
-        select id,`name`,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`
+        select su.id useId,su.name username,password,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`,sr.id roleId,sr.name roleName
+        FROM sys_user su,sys_user_role sur,sys_role sr
+        WHERE su.id=sur.user_id
+        AND sur.role_id=sr.id
+    </select>
+
+<!--  获取员工列表 总的记录条数 -->
+    <select id="getUserListTotalPage" resultType="int">
+        select COUNT(*)
         FROM sys_user
     </select>
 
-
 <!--  员工列表 分页查找  -->
     <select id="getUserListByPage" resultMap="userMap" parameterType="int">
-        select id,`name`,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`
-        FROM sys_user
+        select su.id useId,su.name username,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`,sr.id roleId,sr.name roleName
+        FROM sys_user su,sys_user_role sur,sys_role sr
+        WHERE su.id=sur.user_id
+        AND sur.role_id=sr.id
         limit #{fromIndex},#{pageSize}
     </select>
 

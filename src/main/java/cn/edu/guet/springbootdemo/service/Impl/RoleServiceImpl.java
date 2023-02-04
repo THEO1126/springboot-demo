@@ -4,6 +4,7 @@ import cn.edu.guet.springbootdemo.bean.Role;
 import cn.edu.guet.springbootdemo.mapper.RoleMapper;
 import cn.edu.guet.springbootdemo.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -13,15 +14,14 @@ import java.util.List;
  * @Version 17.0.5
  */
 
+@Service
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleMapper roleMapper;
 
     @Override
-    public List<Role> getRoleList() {
-        return roleMapper.getRoleList();
+    public List<Role> getRoleNameList() {
+        return roleMapper.getRoleNameList();
     }
-
-
 }

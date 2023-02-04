@@ -2,6 +2,7 @@ package cn.edu.guet.springbootdemo.mapper;
 
 
 import cn.edu.guet.springbootdemo.bean.Role;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -10,8 +11,9 @@ import java.util.List;
  * @Date 2023/01/06
  * @Version 17.0.5
  */
+@Mapper
 public interface RoleMapper {
-    List<Role> getRoleList(); // 角色列表
+    List<Role> getRoleNameList(); // 角色的名称列表
 //    int insertRole(String roleName); // 插入role
 //    int insertRolePermission(String roleName,List<Integer> pIdList); // 给role插入权限
 //    boolean checkRolename(String roleName); // 检查角色名是否存在

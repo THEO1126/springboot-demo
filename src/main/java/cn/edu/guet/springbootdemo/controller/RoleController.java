@@ -3,6 +3,7 @@ package cn.edu.guet.springbootdemo.controller;
 import cn.edu.guet.springbootdemo.bean.Result;
 import cn.edu.guet.springbootdemo.bean.Role;
 import cn.edu.guet.springbootdemo.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,16 +19,18 @@ import java.util.List;
 
 @RestController
 public class RoleController {
+
+    @Autowired
     private RoleService roleService;
 
     public void setRoleService(RoleService roleService) {
         this.roleService = roleService;
     }
 
-    @RequestMapping("/getRoleList")
+    @RequestMapping("/getRoleNameList")
     public List<Role> getRoleList(){
         List<Role> roleList=null;
-        roleList=roleService.getRoleList();
+        roleList=roleService.getRoleNameList();
         return roleList;
     }
 
