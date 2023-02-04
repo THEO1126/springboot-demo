@@ -21,6 +21,7 @@ public interface UserService {
     List<User> getUserList();// 员工列表
 
     List<User> getUserListByPage(int fromIndex,int pageSize); // 员工列表的分页查询
+    int getUserListTotalPage(); // 获取员工列表总的条数
 //
 //    boolean insertUser(String username, String password, int roleId);//插入用户
 //

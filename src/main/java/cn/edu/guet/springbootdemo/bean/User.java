@@ -22,6 +22,30 @@ public class User {
     private Date departureTime; // 离职时间 departure_time
     private String status; // 状态  在职或离职
     private List<Role> roleList;
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public User(int userId, String username, String password, String nickName, String mobile, String identity, String homeAddress, Date onboardingTime, Date departureTime, String status, List<Role> roleList, int age) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.nickName = nickName;
+        this.mobile = mobile;
+        this.identity = identity;
+        this.homeAddress = homeAddress;
+        this.onboardingTime = onboardingTime;
+        this.departureTime = departureTime;
+        this.status = status;
+        this.roleList = roleList;
+        this.age = age;
+    }
 
     public User(int userId, String username, String password, String nickName, String mobile, String identity, String homeAddress, Date onboardingTime, Date departureTime, String status, List<Role> roleList) {
         this.userId = userId;
