@@ -19,6 +19,8 @@ public interface UserService {
     List<Permission> getPermissionByUserId(int userId); // 获取权限菜单
 
     List<User> getUserList();// 员工列表
+
+    List<User> getUserListByPage(int fromIndex,int pageSize); // 员工列表的分页查询
 //
 //    boolean insertUser(String username, String password, int roleId);//插入用户
 //

@@ -36,10 +36,9 @@ public class UserController {
         }else{
             return new Result(201,false);
         }
-
     }
 
-    @RequestMapping("/getPermissionByUserId")
+    @GetMapping("/getPermissionByUserId")
     public Result getPermissionByUserId(int userId){
         List<Permission> permissionList = null;
         permissionList = userService.getPermissionByUserId(userId);
@@ -67,11 +66,22 @@ public class UserController {
         return new Result(200,"获取权限成功",finalPermissionList);
     }
 
-    @RequestMapping("/getUserList")
+    @GetMapping("/getUserList")
     public Result getUserList(){
         List<User> userList=userService.getUserList();
         if (userList!=null) {
             return new Result(200, "成功", userList);
+        }else{
+            return new Result(201,"失败",null);
+        }
+    }
+
+    @RequestMapping("/getUserListByPage")
+    public Result getUserListByPage(int currentPage, int pageSize){
+        int fromIndex=(currentPage-1)*pageSize;
+        List<User> userListByPage=userService.getUserListByPage(fromIndex,pageSize);
+        if (userListByPage!=null) {
+            return new Result(200, "成功", userListByPage);
         }else{
             return new Result(201,"失败",null);
         }

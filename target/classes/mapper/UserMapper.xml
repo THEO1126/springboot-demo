@@ -43,21 +43,33 @@
         SELECT EXISTS(SELECT * FROM users WHERE username=#{username})
     </select>
 
-    <!--  根据id获取权限  -->
+    <!--  根据id获取权限 首先使用范围查询定位 id (或者索引),再使用索引进行定位数据，即先 select id，然后在 select *,速度会提升 -->
     <select id="getPermissionByUserId" resultMap="permissionMap" parameterType="int">
-        SELECT distinct sm.*
-        FROM sys_user su,sys_user_role sur,sys_role sr,sys_role_menu srm,sys_menu sm
-        WHERE su.id=sur.user_id
-          AND sur.role_id=sr.id
-          AND sr.id=srm.role_id
-          AND srm.menu_id=sm.id
-          AND su.id=#{userId}
+        SELECT sm.*
+        FROM sys_menu sm
+        WHERE sm.id in (
+            SELECT sm.id
+            FROM sys_user su,sys_user_role sur,sys_role sr,sys_role_menu srm,sys_menu sm
+            WHERE su.id=sur.user_id
+              AND sur.role_id=sr.id
+              AND sr.id=srm.role_id
+              AND srm.menu_id=sm.id
+              AND su.id=#{userId}
+        )
     </select>
 
 <!--  获取员工列表  -->
     <select id="getUserList" resultMap="userMap">
         select id,`name`,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`
         FROM sys_user
+    </select>
+
+
+<!--  员工列表 分页查找  -->
+    <select id="getUserListByPage" resultMap="userMap" parameterType="int">
+        select id,`name`,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`
+        FROM sys_user
+        limit #{fromIndex},#{pageSize}
     </select>
 
 </mapper>

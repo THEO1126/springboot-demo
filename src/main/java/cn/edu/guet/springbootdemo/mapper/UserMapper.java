@@ -20,4 +20,5 @@ public interface UserMapper {
     boolean checkUsername(String username);
     List<Permission> getPermissionByUserId(int userId);
     List<User> getUserList();
+    List<User> getUserListByPage(int fromIndex,int pageSize);
 }
