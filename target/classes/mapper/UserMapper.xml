@@ -11,6 +11,15 @@
         <result property="password" column="password"/>
     </resultMap>
 
+    <resultMap id="userMap" type="cn.edu.guet.springbootdemo.bean.User">
+        <id property="userId" column="id"/>
+        <result property="username" column="name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="homeAddress" column="home_address"/>
+        <result property="onboardingTime" column="onboarding_time"/>
+        <result property="departureTime" column="departure_time"/>
+    </resultMap>
+
 
     <resultMap id="permissionMap" type="cn.edu.guet.springbootdemo.bean.Permission">
         <id property="perId" column="id"/>
@@ -45,5 +54,10 @@
           AND su.id=#{userId}
     </select>
 
+<!--  获取员工列表  -->
+    <select id="getUserList" resultMap="userMap">
+        select id,`name`,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`
+        FROM sys_user
+    </select>
 
 </mapper>
