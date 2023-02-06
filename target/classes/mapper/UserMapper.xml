@@ -22,7 +22,7 @@
         <result property="mobile" column="mobile"/>
         <result property="age" column="age"/>
         <result property="password" column="password"/>
-        <collection property="roleList" ofType="cn.edu.guet.springbootdemo.bean.Role">
+        <collection property="roleList" ofType="cn.edu.guet.springbootdemo.bean.Role" javaType="list">
             <result property="roleId" column="roleId"/>
             <result property="roleName" column="roleName"/>
         </collection>
@@ -68,7 +68,7 @@
 
 <!--  获取员工列表  -->
     <select id="getUserList" resultMap="userMap">
-        select su.id useId,su.name username,password,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`,sr.id roleId,sr.name roleName
+        select su.id userId,su.name username,password,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`,sr.id roleId,sr.name roleName
         FROM sys_user su,sys_user_role sur,sys_role sr
         WHERE su.id=sur.user_id
         AND sur.role_id=sr.id
@@ -81,12 +81,59 @@
     </select>
 
 <!--  员工列表 分页查找  -->
+<!--  先对主表进行分页,再关联从表进行查询  -->
     <select id="getUserListByPage" resultMap="userMap" parameterType="int">
-        select su.id useId,su.name username,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`,sr.id roleId,sr.name roleName
-        FROM sys_user su,sys_user_role sur,sys_role sr
-        WHERE su.id=sur.user_id
+        select userId,username,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`,sr.id roleId,sr.`name` roleName
+        FROM(
+            select su.id userId,su.name username,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`
+            FROM sys_user su
+            limit #{fromIndex},#{pageSize}
+        ) u, sys_user_role sur,sys_role sr
+        WHERE u.userId=sur.user_id
         AND sur.role_id=sr.id
-        limit #{fromIndex},#{pageSize}
     </select>
+
+<!--   员工列表 删除员工 级联删除  删除员工和其对应的角色-->
+    <delete id="delectUser" parameterType="int">
+        DELETE su,sur
+        FROM sys_user su
+        LEFT JOIN sys_user_role sur
+        ON su.id=sur.user_id
+        WHERE su.id=#{userId}
+    </delete>
+
+<!-- 员工列表插入 -->
+    <insert id="insertUser" parameterType="cn.edu.guet.springbootdemo.bean.User">
+        INSERT INTO sys_user (name, age,password,nick_name,mobile,identity,home_address,onboarding_time,departure_time,status)
+        values(#{username}, #{age}, #{password}, #{nickName}, #{mobile},#{identity},
+               #{homeAddress},#{onboardingTime},#{departureTime},#{status})
+    </insert>
+
+    <insert id="insertUserRole">
+        INSERT INTO sys_user_role(user_id,role_id) VALUES
+        <foreach collection="roleList" item="role" separator=",">
+            (
+                (   SELECT id
+                    FROM sys_user
+                    WHERE name=#{username}
+                ),
+                    #{role.roleId}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateUser" parameterType="cn.edu.guet.springbootdemo.bean.User">
+        UPDATE sys_user
+        SET name=#{username}, age=#{age},password=#{password},nick_name=#{nickName},
+            mobile=#{mobile},identity=#{identity},home_address=#{homeAddress},
+            onboarding_time=#{onboardingTime},departure_time=#{departureTime},status=#{status}
+        WHERE id=#{userId};
+    </update>
+
+    <delete id="deleteUserRole" parameterType="int">
+        DELETE sur
+        FROM sys_user_role sur
+        WHERE sur.user_id=#{userId}
+    </delete>
 
 </mapper>

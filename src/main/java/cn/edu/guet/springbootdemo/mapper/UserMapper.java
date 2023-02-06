@@ -2,6 +2,7 @@ package cn.edu.guet.springbootdemo.mapper;
 
 
 import cn.edu.guet.springbootdemo.bean.Permission;
+import cn.edu.guet.springbootdemo.bean.Role;
 import cn.edu.guet.springbootdemo.bean.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -22,4 +23,11 @@ public interface UserMapper {
     List<User> getUserList();
     List<User> getUserListByPage(int fromIndex,int pageSize);
     int getUserListTotalPage();
+    int delectUser(int userId);
+
+    int insertUser(User user);
+    int insertUserRole(String username,List<Role> roleList);
+
+    int updateUser(User userInfo);
+    int deleteUserRole(int userId);
 }

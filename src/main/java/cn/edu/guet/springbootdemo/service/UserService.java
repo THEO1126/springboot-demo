@@ -2,6 +2,7 @@ package cn.edu.guet.springbootdemo.service;
 
 
 import cn.edu.guet.springbootdemo.bean.Permission;
+import cn.edu.guet.springbootdemo.bean.Role;
 import cn.edu.guet.springbootdemo.bean.User;
 
 import java.sql.SQLException;
@@ -22,6 +23,12 @@ public interface UserService {
 
     List<User> getUserListByPage(int fromIndex,int pageSize); // 员工列表的分页查询
     int getUserListTotalPage(); // 获取员工列表总的条数
+
+    int delectUser(int userId);// 删除员工和其对应的角色
+
+    boolean insertUser(User userInfo);
+
+    boolean updateUser(User userInfo);
 //
 //    boolean insertUser(String username, String password, int roleId);//插入用户
 //

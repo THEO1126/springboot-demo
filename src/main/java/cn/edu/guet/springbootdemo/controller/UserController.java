@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -90,6 +91,32 @@ public class UserController {
             return new Result(200, "成功", userListByPage);
         }else{
             return new Result(201,"失败",null);
+        }
+    }
+
+    @GetMapping("/deleteUser")
+    public boolean delectUser(int userId){
+        int result=userService.delectUser(userId);
+        return result>0;
+    }
+
+    @RequestMapping("/insertUser")
+    public boolean insertUser(@RequestBody User userInfo){
+        try {
+            boolean result=userService.insertUser(userInfo);
+            return result;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @RequestMapping("/updateUser")
+    public boolean updateUser(@RequestBody User userInfo){
+        try {
+            boolean result=userService.updateUser(userInfo);
+            return result;
+        }catch (Exception e){
+            return false;
         }
     }
 }

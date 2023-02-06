@@ -1,7 +1,10 @@
 package cn.edu.guet.springbootdemo.bean;
 
-import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @Author 李冰冰
@@ -10,7 +13,7 @@ import java.util.List;
  */
 
 public class User {
-
+//    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private int userId;
     private String username; // 账号 对应 数据库的name
     private String password;
@@ -152,5 +155,17 @@ public class User {
         this.username = username;
     }
 
-
+    public static void main(String[] args) {
+        //获取日期
+        //导 import java.util.Date; 下的包
+        Date date = null;
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy, h:m:s aa", Locale.ENGLISH);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date1 = dateFormat.parse("Sep 1, 2021, 6:07:52 PM");
+            System.out.println(sdf.format(date1));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 }
