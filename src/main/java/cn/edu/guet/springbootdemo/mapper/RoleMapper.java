@@ -14,9 +14,4 @@ import java.util.List;
 @Mapper
 public interface RoleMapper {
     List<Role> getRoleNameList(); // 角色的名称列表
-//    int insertRole(String roleName); // 插入role
-//    int insertRolePermission(String roleName,List<Integer> pIdList); // 给role插入权限
-//    boolean checkRolename(String roleName); // 检查角色名是否存在
-//
-//    List<Role> searchRoleList(String roleName);
 }

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.guet.springbootdemo.mapper.MenuMapper">
+
+    <resultMap id="menuMap" type="cn.edu.guet.springbootdemo.bean.Menu">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="parentName" column="parent_name"/>
+        <result property="url" column="url"/>
+        <result property="perms" column="perms"/>
+        <result property="type" column="type"/>
+        <result property="icon" column="icon"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastUpdateBy" column="last_update_by"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+
+    <select id="getAllMenu" resultMap="menuMap">
+        select * from sys_menu
+    </select>
+
+    <select id="getMenuById" parameterType="int" resultMap="menuMap">
+        select * from sys_menu WHERE id=#{id}
+    </select>
+
+    <insert id="addMenu" parameterType="menu">
+        INSERT INTO sys_menu(name, parent_id, parent_name, url, perms, type, icon, order_num, create_by, create_time, last_update_by, last_update_time, del_flag)
+            VALUE (#{name},#{parentId},#{parentName},#{url},#{perms},#{type},#{icon},#{orderNum},#{createBy},#{createTime},#{lastUpdateBy},#{lastUpdateTime},#{delFlag})
+    </insert>
+
+    <update id="updateMenu" parameterType="menu">
+        UPDATE sys_menu
+        SET name=#{name},parent_id=#{parentId}, parent_name=#{parentName}, url=#{url},
+            perms=#{perms}, type=#{type}, icon=#{icon}, order_num=#{orderNum},
+            create_by=#{createBy}, create_time=#{createTime}, last_update_by=#{lastUpdateBy},
+            last_update_time=#{lastUpdateTime}, del_flag=#{delFlag}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteMenuById" parameterType="int">
+        DELETE FROM sys_menu WHERE id=#{id}
+    </delete>
+</mapper>

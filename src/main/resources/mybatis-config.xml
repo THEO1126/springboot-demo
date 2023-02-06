@@ -22,7 +22,6 @@
         <mapper resource="mapper/UserMapper.xml" />
         <mapper resource="mapper/RoleMapper.xml" />
         <mapper resource="mapper/PermissionMapper.xml" />
-        <mapper resource="mapper/LogMapper.xml" />
     </mappers>
 
 </configuration>
