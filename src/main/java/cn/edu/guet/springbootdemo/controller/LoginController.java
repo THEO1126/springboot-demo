@@ -33,8 +33,6 @@ public class LoginController {
     @RequestMapping("/admin/login")
     public Result login(@RequestBody User loginInfo){
         try {
-            System.out.println(".../admin/login");
-            System.out.println(loginInfo.getUsername());
             User user=new User();
             user.setUsername(loginInfo.getUsername());
             user.setPassword(loginInfo.getPassword());

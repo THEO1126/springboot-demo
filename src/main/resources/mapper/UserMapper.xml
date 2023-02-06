@@ -124,9 +124,18 @@
 
     <update id="updateUser" parameterType="cn.edu.guet.springbootdemo.bean.User">
         UPDATE sys_user
-        SET name=#{username}, age=#{age},password=#{password},nick_name=#{nickName},
-            mobile=#{mobile},identity=#{identity},home_address=#{homeAddress},
-            onboarding_time=#{onboardingTime},departure_time=#{departureTime},status=#{status}
+        <set>
+            <if test="username!=null">name=#{username},</if>
+            <if test="age!=null">age=#{age},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="nickName!=null">nick_name=#{nickName},</if>
+            <if test="mobile!=null">mobile=#{mobile},</if>
+            <if test="homeAddress!=null">home_address=#{homeAddress},</if>
+            <if test="onboardingTime!=null">onboarding_time=#{onboardingTime},</if>
+            <if test="departureTime!=null">departure_time=#{departureTime},</if>
+            <if test="identity!=null">identity=#{identity},</if>
+            <if test="status!=null">status=#{status},</if>
+        </set>
         WHERE id=#{userId};
     </update>
 
