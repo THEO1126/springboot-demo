@@ -25,13 +25,6 @@ public class Menu {
     private Time lastUpdateTime;
     private int delFlag;
 
-    public List<Menu> getChilds() {
-        return childs;
-    }
-
-    public void setChilds(List<Menu> childs) {
-        this.childs = childs;
-    }
 
     public Menu(int id, String name, int parentId, String parentName, String url, String perms, int type, String icon, int orderNum, String createBy, Time createTime, String lastUpdateBy, Time lastUpdateTime, int delFlag, List<Menu> childs) {
         this.id = id;
@@ -48,7 +41,6 @@ public class Menu {
         this.lastUpdateBy = lastUpdateBy;
         this.lastUpdateTime = lastUpdateTime;
         this.delFlag = delFlag;
-        this.childs = childs;
     }
 
     public Menu(int id, String name, int parentId, String parentName, String url, String perms, int type, String icon, int orderNum, String createBy, Time createTime, String lastUpdateBy, Time lastUpdateTime, int delFlag) {
