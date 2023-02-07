@@ -64,6 +64,7 @@
               AND srm.menu_id=sm.id
               AND su.id=#{userId}
         )
+        order by order_num
     </select>
 
 <!--  获取员工列表  -->
@@ -124,9 +125,12 @@
 
     <update id="updateUser" parameterType="cn.edu.guet.springbootdemo.bean.User">
         UPDATE sys_user
-        SET name=#{username}, age=#{age},password=#{password},nick_name=#{nickName},
+        <set>
+            <if test="password!=null">password=#{password},</if>
+            name=#{username}, age=#{age},nick_name=#{nickName},
             mobile=#{mobile},identity=#{identity},home_address=#{homeAddress},
             onboarding_time=#{onboardingTime},departure_time=#{departureTime},status=#{status}
+        </set>
         WHERE id=#{userId};
     </update>
 

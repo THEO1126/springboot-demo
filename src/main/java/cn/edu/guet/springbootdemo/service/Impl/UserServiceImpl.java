@@ -17,11 +17,14 @@ import java.util.List;
  * @Date 2023/01/06
  * @Version 17.0.5
  */
+
 @Service
 public class UserServiceImpl implements UserService {
     private SqlSession sqlSession= DBUtils.openSqlSession();
-    private UserMapper userMapperInsert=sqlSession.getMapper(UserMapper.class); ;
-    private UserMapper userMapperUpdate=sqlSession.getMapper(UserMapper.class); ;
+    private UserMapper userMapperInsert=sqlSession.getMapper(UserMapper.class);
+
+    private UserMapper userMapperUpdate=sqlSession.getMapper(UserMapper.class);
+
     @Autowired
     private UserMapper userMapper;
 

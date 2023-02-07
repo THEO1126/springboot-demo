@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LoginController {
+
     @Autowired
     private UserService userService;
+
     @PostMapping(value = "/test")
     public Result test() {
         try {

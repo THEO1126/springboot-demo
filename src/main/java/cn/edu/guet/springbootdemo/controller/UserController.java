@@ -47,7 +47,6 @@ public class UserController {
         // 二级菜单
         for (Permission child : permissionList){
             if (child.getParentId()!=0&&child.getType()==1){
-                System.out.println("二级菜单名字"+child.getName());
                 childPermissionList.add(child);
             }
         }
@@ -58,12 +57,14 @@ public class UserController {
                 }
             }
         }
+
         List<Permission> finalPermissionList = new ArrayList<>();
         for (Permission permission:permissionList){
             if (permission.getParentId()==0){
                 finalPermissionList.add(permission);
             }
         }
+
         return new Result(200,"获取权限成功",finalPermissionList);
     }
 

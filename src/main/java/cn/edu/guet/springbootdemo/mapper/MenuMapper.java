@@ -12,5 +12,4 @@ public interface MenuMapper {
     void addMenu(Menu menu);
     void updateMenu(Menu menu);
     void deleteMenuById(int id);
-
 }

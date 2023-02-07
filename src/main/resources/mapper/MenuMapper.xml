@@ -23,23 +23,40 @@
 
     <select id="getAllMenu" resultMap="menuMap">
         select * from sys_menu
+        order by order_num
     </select>
 
     <select id="getMenuById" parameterType="int" resultMap="menuMap">
         select * from sys_menu WHERE id=#{id}
     </select>
 
-    <insert id="addMenu" parameterType="menu">
-        INSERT INTO sys_menu(name, parent_id, parent_name, url, perms, type, icon, order_num, create_by, create_time, last_update_by, last_update_time, del_flag)
-            VALUE (#{name},#{parentId},#{parentName},#{url},#{perms},#{type},#{icon},#{orderNum},#{createBy},#{createTime},#{lastUpdateBy},#{lastUpdateTime},#{delFlag})
+<!-- lbb 插入 判断菜单类型 若是按钮 则icon url 不需要插入 -->
+    <insert id="addMenu" parameterType="cn.edu.guet.springbootdemo.bean.Menu">
+        INSERT INTO sys_menu(name, parent_id, parent_name,perms, type,
+        <if test="type!=2">
+            url,icon,
+        </if>
+          order_num, create_by, create_time, del_flag)
+        VALUE (#{name},#{parentId},#{parentName},#{perms},#{type},
+        <if test="type!=2">
+            #{url}, #{icon},
+        </if>
+        #{orderNum},#{createBy},NOW(),#{delFlag})
     </insert>
 
-    <update id="updateMenu" parameterType="menu">
+
+<!-- lbb 更新 判断菜单类型 若是按钮 则icon url 为空 -->
+    <update id="updateMenu" parameterType="cn.edu.guet.springbootdemo.bean.Menu">
         UPDATE sys_menu
-        SET name=#{name},parent_id=#{parentId}, parent_name=#{parentName}, url=#{url},
-            perms=#{perms}, type=#{type}, icon=#{icon}, order_num=#{orderNum},
-            create_by=#{createBy}, create_time=#{createTime}, last_update_by=#{lastUpdateBy},
-            last_update_time=#{lastUpdateTime}, del_flag=#{delFlag}
+        <set>
+            <if test="type!=null and type==2">icon=null, url=null,</if>
+            <if test="type!=null and type!=2">icon=#{icon},url=#{url},</if>
+            <if test="delFlag!=null">del_flag=#{delFlag},</if>
+            <if test="perms!=null">perms=#{perms},</if>
+            <if test="type!=null">type=#{type},</if>
+            name=#{name},parent_id=#{parentId}, parent_name=#{parentName},order_num=#{orderNum},
+            last_update_by=#{lastUpdateBy},last_update_time=NOW()
+        </set>
         WHERE id=#{id}
     </update>
 

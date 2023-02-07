@@ -45,25 +45,24 @@ public class MenuController {
         }
     }
 
-    @RequestMapping("/addMenu")
+    @RequestMapping("/insertMenu")
     public Result addMenu(@RequestBody Menu menu){
-
         try {
             menuService.addMenu(menu);
             return new Result(200,"增加菜单成功", null);
         } catch (Exception e){
+            e.printStackTrace();
             return new Result(201,"增加菜单失败", null);
         }
-
     }
 
     @RequestMapping("/updateMenu")
     public Result updateMenu(@RequestBody Menu menu){
-
         try {
             menuService.updateMenu(menu);
             return new Result(200,"更新菜单成功", null);
         } catch (Exception e){
+            e.printStackTrace();
             return new Result(201,"更新菜单失败", null);
         }
     }
