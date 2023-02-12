@@ -29,10 +29,7 @@ public interface UserService {
     boolean insertUser(User userInfo);
 
     boolean updateUser(User userInfo);
-//
-//    boolean insertUser(String username, String password, int roleId);//插入用户
-//
-//    boolean deleteUser(int userId) throws SQLException;// 删除用户
-//
-//    List<User> searchUserList(String username,int roleId); // 查询
+
+    List<User> searchUserList(String name,String nickName,int fromIndex,int pageSize);
+    int searchUserListTotalPage(String name,String nickName);
 }

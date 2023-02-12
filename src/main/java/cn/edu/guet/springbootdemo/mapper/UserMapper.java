@@ -30,4 +30,7 @@ public interface UserMapper {
 
     int updateUser(User userInfo);
     int deleteUserRole(int userId);
+
+    List<User> searchUserList(String name,String nickName,int fromIndex,int pageSize);
+    int searchUserListTotalPage(String name,String nickName);
 }

@@ -98,4 +98,14 @@ public class UserServiceImpl implements UserService {
             return false;
         }
     }
+
+    @Override
+    public List<User> searchUserList(String name, String nickName,int fromIndex,int pageSize) {
+        return userMapper.searchUserList(name,nickName,fromIndex,pageSize);
+    }
+
+    @Override
+    public int searchUserListTotalPage(String name, String nickName) {
+        return userMapper.searchUserListTotalPage(name,nickName);
+    }
 }

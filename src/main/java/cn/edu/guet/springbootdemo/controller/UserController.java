@@ -120,4 +120,23 @@ public class UserController {
             return false;
         }
     }
+
+    @GetMapping("/searchUserList")
+    public Result searchUserList(String name ,String nickName,int currentPage,int pageSize){
+        int fromIndex=(currentPage-1)*pageSize;
+        List<User> userList=userService.searchUserList(name,nickName,fromIndex,pageSize);
+
+        if (userList!=null) {
+            return new Result(200, "搜索成功", userList);
+        }else{
+            return new Result(201,"无数据",null);
+        }
+    }
+
+    @GetMapping("/searchUserListTotalPage")
+    public Result searchUserListTotalPage(String name, String nickName) {
+        int userListTotalPage=userService.searchUserListTotalPage(name, nickName);
+        return new Result(200, "成功", userListTotalPage);
+    }
+
 }
