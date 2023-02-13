@@ -4,15 +4,103 @@
 <mapper namespace="cn.edu.guet.springbootdemo.mapper.RoleMapper">
 
     <resultMap id="roleNameMap" type="cn.edu.guet.springbootdemo.bean.Role">
-        <result property="roleId" column="roleID"/>
+        <result property="roleId" column="roleId"/>
         <result property="roleName" column="roleName"/>
     </resultMap>
 
+
+    <resultMap id="roleMap" type="cn.edu.guet.springbootdemo.bean.Role">
+        <result property="roleId" column="roleId"/>
+        <result property="roleName" column="roleName"/>
+        <result property="remark" column="remark"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastUpdateBy" column="last_update_by"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <result property="delFlag" column="del_flag"/>
+        <collection property="menuList" ofType="cn.edu.guet.springbootdemo.bean.Menu" javaType="list">
+            <result property="id" column="id"/>
+            <result property="name" column="name"/>
+            <result property="parentId" column="parent_id"/>
+            <result property="parentName" column="parent_name"/>
+            <result property="type" column="type"/>
+            <result property="orderNum" column="order_num"/>
+        </collection>
+    </resultMap>
+
 <!-- 获取角色的名称列表 -->
+
     <select id="getRoleNameList" resultMap="roleNameMap">
-        SELECT id roleID,name roleName
+        SELECT id roleId,name roleName
         FROM sys_role
     </select>
 
+    <select id="getRoleList" resultMap="roleMap">
+        SELECT sr.id roleId,sr.name roleName,remark,sm.id id,sm.name name,parent_id,parent_name,type,order_num
+        FROM sys_role sr
+        LEFT JOIN  sys_role_menu srm
+        ON  sr.id=srm.role_id
+        LEFT JOIN  sys_menu sm
+        ON srm.menu_id=sm.id
+        order by sr.id
+    </select>
+
+
+<!-- 插入 -->
+    <insert id="insertRole" parameterType="cn.edu.guet.springbootdemo.bean.Role">
+        INSERT INTO sys_role(name,remark,create_by,create_time) VALUE(#{roleName},#{remark},#{createBy},NOW())
+    </insert>
+
+<!-- 更新 -->
+    <update id="updateRole" parameterType="cn.edu.guet.springbootdemo.bean.Role">
+        UPDATE sys_role
+        <set>
+            <if test="roleName!=null">name=#{roleName},</if>
+            <if test="remark!=null">remark=#{remark},</if>
+            last_update_by=#{lastUpdateBy},last_update_time=NOW()
+        </set>
+        WHERE id=#{roleId}
+    </update>
+
+<!-- 删除 -->
+    <delete id="deleteRoleById" parameterType="int">
+        delete sr
+        FROM sys_role sr
+        WHERE sr.id=#{roleId}
+    </delete>
+
+<!-- 搜索 -->
+    <select id="searchRoleByName" parameterType="String" resultMap="roleMap">
+        SELECT sr.id roleId,sr.name roleName,remark,sm.id id,sm.name name,parent_id,parent_name,type,order_num
+        FROM sys_role sr
+        LEFT JOIN  sys_role_menu srm
+        ON  sr.id=srm.role_id
+        LEFT JOIN  sys_menu sm
+        ON srm.menu_id=sm.id
+        WHERE sr.id in (
+            select id
+            FROM sys_role
+            WHERE name LIKE CONCAT ('%', #{roleName},'%')
+        )
+        order by sr.id
+    </select>
+
+<!-- 份分配权限 -->
+    <insert id="insertRoleMenu">
+        INSERT INTO sys_role_menu(role_id,menu_id) VALUES
+        <foreach collection="menuList" item="menu" separator=",">
+            (#{roleId},#{menu.id})
+        </foreach>
+    </insert>
+
+
+    <delete id="deleteRoleMenu" parameterType="int">
+        DELETE srm
+        FROM sys_role_menu srm
+        WHERE srm.role_id=#{roleId}
+    </delete>
+
 </mapper>
+
+
 

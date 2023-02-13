@@ -29,11 +29,6 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User login(User user) {
-        return userMapper.login(user);
-    }
-
-    @Override
     public boolean checkUsername(String username) {
         boolean result=userMapper.checkUsername(username);
         return result;

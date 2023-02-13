@@ -3,13 +3,6 @@
 
 <mapper namespace="cn.edu.guet.springbootdemo.mapper.UserMapper">
 
-    <!--  resultMap 配置  -->
-    <resultMap id="loginMap" type="cn.edu.guet.springbootdemo.bean.User">
-        <result property="userId" column="id"/>
-        <result property="username" column="name"/>
-        <result property="password" column="password"/>
-    </resultMap>
-
     <resultMap id="userMap" type="cn.edu.guet.springbootdemo.bean.User">
         <result property="userId" column="userId"/>
         <result property="username" column="username"/>
@@ -22,6 +15,7 @@
         <result property="mobile" column="mobile"/>
         <result property="age" column="age"/>
         <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
         <result property="lastUpdateBy" column="last_update_by"/>
@@ -44,10 +38,6 @@
     </resultMap>
 
 <!--  查询语句  -->
-    <!--  登录  -->
-    <select id="login" resultMap="loginMap" parameterType="cn.edu.guet.springbootdemo.bean.User">
-        SELECT * FROM sys_user WHERE name=#{username} AND password=#{password}
-    </select>
 
     <!--  检查用户名: 检查记录是否存在，并返回布尔值   1:ture 0:false -->
     <select id="checkUsername" parameterType="String" resultType="boolean">
@@ -109,8 +99,8 @@
 
 <!-- 员工列表插入 -->
     <insert id="insertUser" parameterType="cn.edu.guet.springbootdemo.bean.User">
-        INSERT INTO sys_user (name, age,password,nick_name,mobile,identity,home_address,onboarding_time,departure_time,status, create_by,create_time)
-        values(#{username}, #{age}, #{password}, #{nickName}, #{mobile},#{identity},
+        INSERT INTO sys_user (name, age,password,salt,nick_name,mobile,identity,home_address,onboarding_time,departure_time,status, create_by,create_time)
+        values(#{username}, #{age}, #{password}, #{salt},#{nickName}, #{mobile},#{identity},
                #{homeAddress},#{onboardingTime},#{departureTime},#{status},#{createBy},NOW())
     </insert>
 

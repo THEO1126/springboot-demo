@@ -1,25 +1,18 @@
-package cn.edu.guet.springbootdemo;
-
-/**
- * @Author 李冰冰
- * @Date 2023/02/02
- * @Version 17.0.5
- */
+package cn.edu.guet.springbootdemo.util;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.codec.digest.Md5Crypt;
 
 import java.security.MessageDigest;
-import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
- * 密码加密
- *
+ * @Author 李冰冰
+ * @Date 2023/02/14
+ * @Version 17.0.5
+ * MD5 实现登入加密
  */
-public class PasswordEncoder {
 
+public class MD5Utils {
     private final static String[] hexDigits = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d",
             "e", "f"};
 
@@ -30,7 +23,7 @@ public class PasswordEncoder {
     private String algorithm;
 
     //  生成随机盐
-    public static String getSalt(int n){
+    public static String getRandomSalt(int n){
         StringBuilder sb = new StringBuilder();
         for(int i = 0; i < 20; i++){
             String aChar = hexDigits[new Random().nextInt(hexDigits.length)];
@@ -39,11 +32,11 @@ public class PasswordEncoder {
         return sb.toString();
     }
 
-    public PasswordEncoder(Object salt) {
+    public MD5Utils(Object salt) {
         this(salt, MD5);
     }
 
-    public PasswordEncoder(Object salt, String algorithm) {
+    public MD5Utils(Object salt, String algorithm) {
         this.salt = salt;
         this.algorithm = algorithm;
     }
@@ -93,7 +86,6 @@ public class PasswordEncoder {
         if (password == null) {
             password = "";
         }
-
         if ((salt == null) || "".equals(salt)) {
             return password;
         } else {
@@ -133,10 +125,15 @@ public class PasswordEncoder {
     public static void main(String[] args) {
 
         //  使用了加密盐的MD5码
-        PasswordEncoder encoderMd5 = new PasswordEncoder("53caae756e414182914a", "MD5");
+        String salt="672dee439511fe73c900";
+        MD5Utils encoderMd5 = new MD5Utils(salt);
         String rawPass="123456";
+
         String encPass= encoderMd5.encode(rawPass);
 
+        System.out.println("密文:"+encPass);
+
         System.out.println(encoderMd5.matches(encPass,rawPass));
+
     }
 }

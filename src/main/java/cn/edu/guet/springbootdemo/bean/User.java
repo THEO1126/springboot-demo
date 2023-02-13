@@ -30,6 +30,56 @@ public class User {
     String createBy;
     Date lastUpdateTime;
     String lastUpdateBy;
+    String salt;
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public User(int userId, String username, String password, String nickName, String mobile, String identity, String homeAddress, Date onboardingTime, Date departureTime, String status, List<Role> roleList, int age, Date createTime, String createBy, Date lastUpdateTime, String lastUpdateBy, String salt) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.nickName = nickName;
+        this.mobile = mobile;
+        this.identity = identity;
+        this.homeAddress = homeAddress;
+        this.onboardingTime = onboardingTime;
+        this.departureTime = departureTime;
+        this.status = status;
+        this.roleList = roleList;
+        this.age = age;
+        this.createTime = createTime;
+        this.createBy = createBy;
+        this.lastUpdateTime = lastUpdateTime;
+        this.lastUpdateBy = lastUpdateBy;
+        this.salt = salt;
+    }
+
+    public User(int userId, String username, String password, String nickName, String mobile, String identity, String homeAddress, Date onboardingTime, Date departureTime, String status, List<Role> roleList, int age, Date createTime, String createBy, Date lastUpdateTime, String lastUpdateBy, boolean rememberMe) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.nickName = nickName;
+        this.mobile = mobile;
+        this.identity = identity;
+        this.homeAddress = homeAddress;
+        this.onboardingTime = onboardingTime;
+        this.departureTime = departureTime;
+        this.status = status;
+        this.roleList = roleList;
+        this.age = age;
+        this.createTime = createTime;
+        this.createBy = createBy;
+        this.lastUpdateTime = lastUpdateTime;
+        this.lastUpdateBy = lastUpdateBy;
+    }
+
+
 
     public Date getCreateTime() {
         return createTime;

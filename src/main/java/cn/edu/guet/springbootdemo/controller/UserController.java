@@ -5,6 +5,7 @@ import cn.edu.guet.springbootdemo.bean.Permission;
 import cn.edu.guet.springbootdemo.bean.Result;
 import cn.edu.guet.springbootdemo.bean.User;
 import cn.edu.guet.springbootdemo.service.UserService;
+import cn.edu.guet.springbootdemo.util.MD5Utils;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -104,6 +105,12 @@ public class UserController {
     @RequestMapping("/insertUser")
     public boolean insertUser(@RequestBody User userInfo){
         try {
+            String salt= MD5Utils.getRandomSalt(20); // 随机盐
+            MD5Utils encoderMd5 = new MD5Utils(salt);
+            String rawPass = userInfo.getPassword();
+            String encPass= encoderMd5.encode(rawPass); // 密文
+            userInfo.setPassword(encPass);
+            userInfo.setSalt(salt);
             boolean result=userService.insertUser(userInfo);
             return result;
         }catch (Exception e){

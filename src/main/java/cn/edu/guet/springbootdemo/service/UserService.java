@@ -15,7 +15,6 @@ import java.util.List;
  */
 
 public interface UserService {
-    User login(User user); // 登入
     boolean checkUsername(String username);// 检查用户名
     List<Permission> getPermissionByUserId(int userId); // 获取权限菜单
 
