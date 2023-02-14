@@ -1,8 +1,11 @@
 package cn.edu.guet.springbootdemo.controller;
 
+import cn.edu.guet.springbootdemo.bean.LoginVo;
 import cn.edu.guet.springbootdemo.bean.Result;
 import cn.edu.guet.springbootdemo.bean.User;
+import cn.edu.guet.springbootdemo.service.LoginService;
 import cn.edu.guet.springbootdemo.service.UserService;
+import cn.edu.guet.springbootdemo.util.MD5Utils;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.catalina.security.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +20,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class LoginController {
+
     @Autowired
-    private UserService userService;
+    private LoginService loginService;
+
     @PostMapping(value = "/test")
     public Result test() {
         try {
@@ -31,14 +36,22 @@ public class LoginController {
     }
 
     @RequestMapping("/admin/login")
-    public Result login(@RequestBody User loginInfo){
+    public Result login(@RequestBody LoginVo loginInfo){
         try {
-            System.out.println(".../admin/login");
-            System.out.println(loginInfo.getUsername());
-            User user=new User();
-            user.setUsername(loginInfo.getUsername());
-            user.setPassword(loginInfo.getPassword());
-            User result=userService.login(user);
+            String username=loginInfo.getUsername();
+            String rawPass=loginInfo.getPassword();
+            String salt=loginService.getSaltByName(username);
+            LoginVo result=null;
+            if(salt!=null){
+                // 登入加密验证
+                MD5Utils encoderMd5 = new MD5Utils(salt);
+                String encPass= encoderMd5.encode(rawPass);
+                LoginVo loginVo=new LoginVo();
+                loginVo.setUsername(loginInfo.getUsername());
+                loginVo.setPassword(encPass);
+                result=loginService.login(loginVo);
+            }
+
             if (result != null) {
                 System.out.println("登入成功");
                 return new Result(200, "登入成功！success",result);
@@ -51,4 +64,5 @@ public class LoginController {
         }
         return null;
     }
+
 }

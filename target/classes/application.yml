@@ -20,13 +20,21 @@ server:
   port: 8088
 
 
+#spring:
+#  # mysql
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://120.78.211.33:3306/OA?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+#    username: root
+#    password: Aliyun1154615101@
+
 spring:
-  # mysql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/oa_project?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: root
     password: THEO1126
+
 
 # mybatis 加载 bean和 xml ，映射路径配置
 mybatis:
