@@ -18,7 +18,9 @@ public interface PurchaseMapper {
     List<PurchaseContract> getPurchasePaymentContract();
     void deletePurchasePaymentContractById(int id);
     void addPurchasePaymentContract(PurchasePaymentContract purchasePaymentContract);
-
-
     List<PurchaseContract> getPurchaseDirectorState();
+
+    List<PurchaseContract> getPurchaseContractByPage(int fromIndex,int pageSize); // 采购单分页查询
+
+    int getPurchaseContractTotalPage(); // 采购单总数量
 }

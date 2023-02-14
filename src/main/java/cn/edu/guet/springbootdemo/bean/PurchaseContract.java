@@ -35,6 +35,76 @@ public class PurchaseContract {
     private Timestamp lastUpdateTime;
     private String lastUpdateBy;
 
+    private OtherInOut otherInOut;  // 出入库
+    private OtherWarehouse otherWarehouse;
+
+    public PurchaseContract(int id, String purchaseContractNo, String customerEnterpriseName, String ownCompanyName, String squeezeSeason, Date inboundTime, String goodsName, BigDecimal goodsCount, String goodsUnit, BigDecimal goodsUnitPrice, BigDecimal paymentAmount, BigDecimal unpaidAmount, String contractPhoto, int pigeonhole, int relationPaymentExistState, int relationPaymentAuditState, int relationLogisticsExistState, Timestamp createTime, String createBy, Timestamp lastUpdateTime, String lastUpdateBy, OtherInOut otherInOut, OtherWarehouse otherWarehouse) {
+        this.id = id;
+        this.purchaseContractNo = purchaseContractNo;
+        this.customerEnterpriseName = customerEnterpriseName;
+        this.ownCompanyName = ownCompanyName;
+        this.squeezeSeason = squeezeSeason;
+        this.inboundTime = inboundTime;
+        this.goodsName = goodsName;
+        this.goodsCount = goodsCount;
+        this.goodsUnit = goodsUnit;
+        this.goodsUnitPrice = goodsUnitPrice;
+        this.paymentAmount = paymentAmount;
+        this.unpaidAmount = unpaidAmount;
+        this.contractPhoto = contractPhoto;
+        this.pigeonhole = pigeonhole;
+        this.relationPaymentExistState = relationPaymentExistState;
+        this.relationPaymentAuditState = relationPaymentAuditState;
+        this.relationLogisticsExistState = relationLogisticsExistState;
+        this.createTime = createTime;
+        this.createBy = createBy;
+        this.lastUpdateTime = lastUpdateTime;
+        this.lastUpdateBy = lastUpdateBy;
+        this.otherInOut = otherInOut;
+        this.otherWarehouse = otherWarehouse;
+    }
+
+    public OtherWarehouse getOtherWarehouse() {
+        return otherWarehouse;
+    }
+
+    public void setOtherWarehouse(OtherWarehouse otherWarehouse) {
+        this.otherWarehouse = otherWarehouse;
+    }
+
+    public OtherInOut getOtherInOut() {
+        return otherInOut;
+    }
+
+    public void setOtherInOut(OtherInOut otherInOut) {
+        this.otherInOut = otherInOut;
+    }
+
+    public PurchaseContract(int id, String purchaseContractNo, String customerEnterpriseName, String ownCompanyName, String squeezeSeason, Date inboundTime, String goodsName, BigDecimal goodsCount, String goodsUnit, BigDecimal goodsUnitPrice, BigDecimal paymentAmount, BigDecimal unpaidAmount, String contractPhoto, int pigeonhole, int relationPaymentExistState, int relationPaymentAuditState, int relationLogisticsExistState, Timestamp createTime, String createBy, Timestamp lastUpdateTime, String lastUpdateBy, OtherInOut otherInOut) {
+        this.id = id;
+        this.purchaseContractNo = purchaseContractNo;
+        this.customerEnterpriseName = customerEnterpriseName;
+        this.ownCompanyName = ownCompanyName;
+        this.squeezeSeason = squeezeSeason;
+        this.inboundTime = inboundTime;
+        this.goodsName = goodsName;
+        this.goodsCount = goodsCount;
+        this.goodsUnit = goodsUnit;
+        this.goodsUnitPrice = goodsUnitPrice;
+        this.paymentAmount = paymentAmount;
+        this.unpaidAmount = unpaidAmount;
+        this.contractPhoto = contractPhoto;
+        this.pigeonhole = pigeonhole;
+        this.relationPaymentExistState = relationPaymentExistState;
+        this.relationPaymentAuditState = relationPaymentAuditState;
+        this.relationLogisticsExistState = relationLogisticsExistState;
+        this.createTime = createTime;
+        this.createBy = createBy;
+        this.lastUpdateTime = lastUpdateTime;
+        this.lastUpdateBy = lastUpdateBy;
+        this.otherInOut = otherInOut;
+    }
+
     public PurchaseContract(){
 
     }

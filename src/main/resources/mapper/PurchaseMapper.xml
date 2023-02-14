@@ -25,6 +25,16 @@
         <result property="createBy" column="create_by"/>
         <result property="lastUpdateTime" column="last_update_time"/>
         <result property="lastUpdateBy" column="last_update_by"/>
+        <association property="otherInOut" javaType="cn.edu.guet.springbootdemo.bean.OtherInOut">
+            <result property="inOutGoodsCount" column="in_out_goods_count"/>
+            <result property="inOutGoodsUnitPrice" column="in_out_goods_unit_price"/>
+            <result property="inOutType" column="in_out_type"/>
+        </association>
+        <association property="otherWarehouse" javaType="cn.edu.guet.springbootdemo.bean.OtherWarehouse">
+            <result property="factoryName" column="factory_name"/>
+            <result property="goodsCount" column="ow_good_cout"/>
+        </association>
+
     </resultMap>
 
     <resultMap id="purchasePaymentContractMapper" type="cn.edu.guet.springbootdemo.bean.PurchasePaymentContract">
@@ -53,9 +63,38 @@
         <result property="lastUpdateBy" column="last_update_by"/>
     </resultMap>
 
+
+
     <select id="getAllPurchaseContract" resultMap="purchaseContractMapper">
-        SELECT * FROM purchase_contract
+        SELECT pc.*,oio.in_out_goods_count,oio.in_out_goods_unit_price,oio.in_out_type,ow.factory_name,ow.goods_count ow_good_cout
+        FROM purchase_contract pc,other_in_out oio,other_warehouse ow
+        WHERE pc.purchase_contract_no = oio.in_out_contract_no
+        AND oio.other_warehouse_id = ow.id
     </select>
+
+
+<!-- 采购单 分页查询 -->
+    <select id="getPurchaseContractByPage" resultMap="purchaseContractMapper">
+        select pc.*,oio.in_out_goods_count,oio.in_out_goods_unit_price,oio.in_out_type,ow.factory_name,ow.goods_count ow_good_cout
+        FROM purchase_contract pc,other_in_out oio,other_warehouse ow
+        WHERE pc.id in(
+            select p.id
+            FROM (
+                 select id
+                 FROM purchase_contract
+                 limit #{fromIndex},#{pageSize}
+             ) p
+        )
+        AND pc.purchase_contract_no = oio.in_out_contract_no
+        AND oio.other_warehouse_id = ow.id
+    </select>
+
+<!-- 采购单的总数量 -->
+    <select id="getPurchaseContractTotalPage" resultType="int">
+        select count(id)
+        FROM purchase_contract
+    </select>
+
 
     <select id="getPurchaseContractById" parameterType="cn.edu.guet.springbootdemo.bean.PurchaseContract" resultMap="purchaseContractMapper">
         SELECT * FROM purchase_contract WHERE id=#{id}

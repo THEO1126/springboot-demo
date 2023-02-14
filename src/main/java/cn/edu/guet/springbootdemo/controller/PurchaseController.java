@@ -33,6 +33,25 @@ public class PurchaseController {
         }
     }
 
+    // 采购单的分页查询
+    @RequestMapping("/getPurchaseContractByPage")
+    public Result getPurchaseContractByPage(int currentPage, int pageSize) {
+        int fromIndex=(currentPage-1)*pageSize;
+        List<PurchaseContract> purchaseContractList=purchaseService.getPurchaseContractByPage(fromIndex,pageSize);
+        if (purchaseContractList!=null){
+            return new Result(200,"所有采购单查询成功",purchaseContractList);
+        }else {
+            return new Result(201,"查询失败",null);
+        }
+    }
+
+    // 采购单的总数量
+    @RequestMapping("/getPurchaseContractTotalPage")
+    public Result getPurchaseContractTotalPage() {
+        int purchaseContractTotalPage=purchaseService.getPurchaseContractTotalPage();
+        return new Result(200,"查询采购单的总数量成功",purchaseContractTotalPage);
+    }
+
     @RequestMapping("/getPurchaseContractById")
     public Result getPurchaseContractById(int id){
         List<PurchaseContract> purchaseContract=purchaseService.getPurchaseContractById(id);
