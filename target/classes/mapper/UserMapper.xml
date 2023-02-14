@@ -3,13 +3,6 @@
 
 <mapper namespace="cn.edu.guet.springbootdemo.mapper.UserMapper">
 
-    <!--  resultMap 配置  -->
-    <resultMap id="loginMap" type="cn.edu.guet.springbootdemo.bean.User">
-        <result property="userId" column="id"/>
-        <result property="username" column="name"/>
-        <result property="password" column="password"/>
-    </resultMap>
-
     <resultMap id="userMap" type="cn.edu.guet.springbootdemo.bean.User">
         <result property="userId" column="userId"/>
         <result property="username" column="username"/>
@@ -22,7 +15,12 @@
         <result property="mobile" column="mobile"/>
         <result property="age" column="age"/>
         <result property="password" column="password"/>
-        <collection property="roleList" ofType="cn.edu.guet.springbootdemo.bean.Role">
+        <result property="salt" column="salt"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastUpdateBy" column="last_update_by"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <collection property="roleList" ofType="cn.edu.guet.springbootdemo.bean.Role" javaType="list">
             <result property="roleId" column="roleId"/>
             <result property="roleName" column="roleName"/>
         </collection>
@@ -40,10 +38,6 @@
     </resultMap>
 
 <!--  查询语句  -->
-    <!--  登录  -->
-    <select id="login" resultMap="loginMap" parameterType="cn.edu.guet.springbootdemo.bean.User">
-        SELECT * FROM sys_user WHERE name=#{username} AND password=#{password}
-    </select>
 
     <!--  检查用户名: 检查记录是否存在，并返回布尔值   1:ture 0:false -->
     <select id="checkUsername" parameterType="String" resultType="boolean">
@@ -64,11 +58,12 @@
               AND srm.menu_id=sm.id
               AND su.id=#{userId}
         )
+        order by order_num
     </select>
 
 <!--  获取员工列表  -->
     <select id="getUserList" resultMap="userMap">
-        select su.id useId,su.name username,password,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`,sr.id roleId,sr.name roleName
+        select su.id userId,su.name username,password,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`,sr.id roleId,sr.name roleName
         FROM sys_user su,sys_user_role sur,sys_role sr
         WHERE su.id=sur.user_id
         AND sur.role_id=sr.id
@@ -76,17 +71,107 @@
 
 <!--  获取员工列表 总的记录条数 -->
     <select id="getUserListTotalPage" resultType="int">
-        select COUNT(*)
+        select COUNT(id)
         FROM sys_user
     </select>
 
 <!--  员工列表 分页查找  -->
+<!--  先对主表进行分页,再关联从表进行查询  -->
     <select id="getUserListByPage" resultMap="userMap" parameterType="int">
-        select su.id useId,su.name username,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`,sr.id roleId,sr.name roleName
-        FROM sys_user su,sys_user_role sur,sys_role sr
-        WHERE su.id=sur.user_id
+        select userId,username,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`,sr.id roleId,sr.`name` roleName
+        FROM(
+            select su.id userId,su.name username,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`
+            FROM sys_user su
+            limit #{fromIndex},#{pageSize}
+        ) u, sys_user_role sur,sys_role sr
+        WHERE u.userId=sur.user_id
         AND sur.role_id=sr.id
-        limit #{fromIndex},#{pageSize}
+    </select>
+
+<!--   员工列表 删除员工 级联删除  删除员工和其对应的角色-->
+    <delete id="delectUser" parameterType="int">
+        DELETE su,sur
+        FROM sys_user su
+        LEFT JOIN sys_user_role sur
+        ON su.id=sur.user_id
+        WHERE su.id=#{userId}
+    </delete>
+
+<!-- 员工列表插入 -->
+    <insert id="insertUser" parameterType="cn.edu.guet.springbootdemo.bean.User">
+        INSERT INTO sys_user (name, age,password,salt,nick_name,mobile,identity,home_address,onboarding_time,departure_time,status, create_by,create_time)
+        values(#{username}, #{age}, #{password}, #{salt},#{nickName}, #{mobile},#{identity},
+               #{homeAddress},#{onboardingTime},#{departureTime},#{status},#{createBy},NOW())
+    </insert>
+
+    <insert id="insertUserRole">
+        INSERT INTO sys_user_role(user_id,role_id) VALUES
+        <foreach collection="roleList" item="role" separator=",">
+            (
+                (   SELECT id
+                    FROM sys_user
+                    WHERE name=#{username}
+                ),
+                    #{role.roleId}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateUser" parameterType="cn.edu.guet.springbootdemo.bean.User">
+        UPDATE sys_user
+        <set>
+            <if test="createBy!=null">last_update_by=#{lastUpdateBy},</if>
+            <if test="password!=null">password=#{password},</if>
+            name=#{username}, age=#{age},nick_name=#{nickName},
+            mobile=#{mobile},identity=#{identity},home_address=#{homeAddress},
+            onboarding_time=#{onboardingTime},departure_time=#{departureTime},status=#{status},
+            last_update_time=now()
+        </set>
+        WHERE id=#{userId};
+    </update>
+
+    <delete id="deleteUserRole" parameterType="int">
+        DELETE sur
+        FROM sys_user_role sur
+        WHERE sur.user_id=#{userId}
+    </delete>
+
+<!-- 查询 根据 name 和 nickName 进行分页查询-->
+    <select id="searchUserList" resultMap="userMap">
+        select su.id userId,su.name username,password,nick_name,age,mobile,identity,home_address,onboarding_time,departure_time,`status`,sr.id roleId,sr.name roleName
+        FROM sys_user su,sys_user_role sur,sys_role sr
+        WHERE su.id in(
+            select u.id
+            from (
+                select id
+                From sys_user
+                <where>
+                    <if test="name != null">
+                        and name LIKE  concat('%',#{name},'%')
+                    </if>
+                    <if test="nickName != null">
+                        and nick_name LIKE  concat('%',#{nickName},'%')
+                    </if>
+                </where>
+                limit #{fromIndex},#{pageSize}
+                ) u
+        )
+        AND su.id=sur.user_id
+        AND sur.role_id=sr.id
+    </select>
+
+<!-- 查询 搜索出的结果 数据数量-->
+    <select id="searchUserListTotalPage" parameterType="String" resultType="int">
+        select count(id)
+        From sys_user
+        <where>
+            <if test="name != null">
+                and name LIKE  concat('%',#{name},'%')
+            </if>
+            <if test="nickName != null">
+                and nick_name LIKE  concat('%',#{nickName},'%')
+            </if>
+        </where>
     </select>
 
 </mapper>

@@ -24,6 +24,4 @@
         AND rp.per_id=p.per_id AND ur.user_id=#{userId}
     </select>
 
-
-
 </mapper>

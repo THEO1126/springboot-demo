@@ -5,10 +5,12 @@ import cn.edu.guet.springbootdemo.bean.Permission;
 import cn.edu.guet.springbootdemo.bean.Result;
 import cn.edu.guet.springbootdemo.bean.User;
 import cn.edu.guet.springbootdemo.service.UserService;
+import cn.edu.guet.springbootdemo.util.MD5Utils;
 import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,7 +48,6 @@ public class UserController {
         // 二级菜单
         for (Permission child : permissionList){
             if (child.getParentId()!=0&&child.getType()==1){
-                System.out.println("二级菜单名字"+child.getName());
                 childPermissionList.add(child);
             }
         }
@@ -57,12 +58,14 @@ public class UserController {
                 }
             }
         }
+
         List<Permission> finalPermissionList = new ArrayList<>();
         for (Permission permission:permissionList){
             if (permission.getParentId()==0){
                 finalPermissionList.add(permission);
             }
         }
+
         return new Result(200,"获取权限成功",finalPermissionList);
     }
 
@@ -92,4 +95,55 @@ public class UserController {
             return new Result(201,"失败",null);
         }
     }
+
+    @GetMapping("/deleteUser")
+    public boolean delectUser(int userId){
+        int result=userService.delectUser(userId);
+        return result>0;
+    }
+
+    @RequestMapping("/insertUser")
+    public boolean insertUser(@RequestBody User userInfo){
+        try {
+            String salt= MD5Utils.getRandomSalt(20); // 随机盐
+            MD5Utils encoderMd5 = new MD5Utils(salt);
+            String rawPass = userInfo.getPassword();
+            String encPass= encoderMd5.encode(rawPass); // 密文
+            userInfo.setPassword(encPass);
+            userInfo.setSalt(salt);
+            boolean result=userService.insertUser(userInfo);
+            return result;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @RequestMapping("/updateUser")
+    public boolean updateUser(@RequestBody User userInfo){
+        try {
+            boolean result=userService.updateUser(userInfo);
+            return result;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    @GetMapping("/searchUserList")
+    public Result searchUserList(String name ,String nickName,int currentPage,int pageSize){
+        int fromIndex=(currentPage-1)*pageSize;
+        List<User> userList=userService.searchUserList(name,nickName,fromIndex,pageSize);
+
+        if (userList!=null) {
+            return new Result(200, "搜索成功", userList);
+        }else{
+            return new Result(201,"无数据",null);
+        }
+    }
+
+    @GetMapping("/searchUserListTotalPage")
+    public Result searchUserListTotalPage(String name, String nickName) {
+        int userListTotalPage=userService.searchUserListTotalPage(name, nickName);
+        return new Result(200, "成功", userListTotalPage);
+    }
+
 }

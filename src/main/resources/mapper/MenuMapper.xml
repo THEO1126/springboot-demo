@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.guet.springbootdemo.mapper.MenuMapper">
+
+    <resultMap id="menuMap" type="cn.edu.guet.springbootdemo.bean.Menu">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="parentName" column="parent_name"/>
+        <result property="url" column="url"/>
+        <result property="perms" column="perms"/>
+        <result property="type" column="type"/>
+        <result property="icon" column="icon"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastUpdateBy" column="last_update_by"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <result property="delFlag" column="del_flag"/>
+    </resultMap>
+
+
+    <select id="getAllMenu" resultMap="menuMap">
+        select * from sys_menu
+        order by order_num
+    </select>
+
+    <select id="getMenuById" parameterType="int" resultMap="menuMap">
+        select * from sys_menu WHERE id=#{id}
+    </select>
+
+<!-- lbb 插入 判断菜单类型 若是按钮 则icon url 不需要插入 -->
+    <insert id="addMenu" parameterType="cn.edu.guet.springbootdemo.bean.Menu">
+        INSERT INTO sys_menu(name, parent_id, parent_name,perms, type,
+        <if test="type!=2">
+            url,icon,
+        </if>
+          order_num, create_by, create_time, del_flag)
+        VALUE (#{name},#{parentId},#{parentName},#{perms},#{type},
+        <if test="type!=2">
+            #{url}, #{icon},
+        </if>
+        #{orderNum},#{createBy},NOW(),#{delFlag})
+    </insert>
+
+
+<!-- lbb 更新 判断菜单类型 若是按钮 则icon url 为空 -->
+    <update id="updateMenu" parameterType="cn.edu.guet.springbootdemo.bean.Menu">
+        UPDATE sys_menu
+        <set>
+            <if test="type!=null and type==2">icon=null, url=null,</if>
+            <if test="type!=null and type!=2">icon=#{icon},url=#{url},</if>
+            <if test="delFlag!=null">del_flag=#{delFlag},</if>
+            <if test="perms!=null">perms=#{perms},</if>
+            <if test="type!=null">type=#{type},</if>
+            name=#{name},parent_id=#{parentId}, parent_name=#{parentName},order_num=#{orderNum},
+            last_update_by=#{lastUpdateBy},last_update_time=NOW()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteMenuById" parameterType="int">
+        DELETE FROM sys_menu WHERE id=#{id}
+    </delete>
+</mapper>

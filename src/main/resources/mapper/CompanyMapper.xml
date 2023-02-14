@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.guet.springbootdemo.mapper.CompanyMapper">
+
+    <resultMap id="companyMap" type="cn.edu.guet.springbootdemo.bean.Company">
+        <result property="id" column="id"/>
+        <result property="ownCompanyName" column="own_company_name"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="lastUpdateBy" column="last_update_by"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+    </resultMap>
+
+
+    <select id="getAllCompany" resultMap="companyMap">
+        select * from own_company
+        order by id
+    </select>
+
+
+    <insert id="addCompany" parameterType="cn.edu.guet.springbootdemo.bean.Company">
+        INSERT INTO own_company(own_company_name,
+        <if test="createBy!=null">
+            create_by,
+        </if>
+        create_time)
+        VALUE (#{ownCompanyName},
+        <if test="createBy!=null">
+            #{createBy},
+        </if>
+            NOW())
+    </insert>
+
+
+    <update id="updateCompany" parameterType="cn.edu.guet.springbootdemo.bean.Company">
+        UPDATE own_company
+        <set>
+            <if test="createBy!=null">last_update_by=#{lastUpdateBy},</if>
+            own_company_name=#{ownCompanyName},last_update_time=now()
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteCompanyById" parameterType="int">
+        DELETE FROM own_company WHERE id=#{id}
+    </delete>
+
+
+    <!--  先对主表进行分页,再关联从表进行查询  -->
+    <select id="getCompanyListByPage" resultMap="companyMap" parameterType="int">
+        select * from own_company
+        order by id
+        limit #{fromIndex},#{pageSize}
+    </select>
+
+    <!--  获取公司列表 总的记录条数 -->
+    <select id="getCompanyListTotalPage" resultType="int">
+        select COUNT(id)
+        FROM own_company
+    </select>
+
+    <!-- 查询 搜索出的结果 数据数量-->
+    <select id="searchCompanyListTotalPage" parameterType="String" resultType="int">
+        select count(id)
+        From own_company
+        <where>
+            <if test="name != null and name!=''">
+                AND own_company_name LIKE CONCAT ('%', #{name},'%')
+            </if>
+        </where>
+    </select>
+
+<!-- 一个搜索框多个字段查询 -->
+    <select id="searchCompanyList" resultMap="companyMap">
+        select *
+        from own_company oc
+        WHERE oc.id in(
+            select c.id
+            from (
+                select id
+                from own_company
+                <where>
+                    <if test="name != null and name!=''">
+                        AND own_company_name LIKE CONCAT ('%', #{name},'%')
+                    </if>
+                </where>
+                limit #{fromIndex},#{pageSize}
+            ) c
+        )
+    </select>
+</mapper>

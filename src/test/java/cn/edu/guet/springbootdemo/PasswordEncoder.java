@@ -7,8 +7,12 @@ package cn.edu.guet.springbootdemo;
  */
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.codec.digest.Md5Crypt;
 
 import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  * 密码加密
@@ -24,6 +28,16 @@ public class PasswordEncoder {
 
     private Object salt;
     private String algorithm;
+
+    //  生成随机盐
+    public static String getSalt(int n){
+        StringBuilder sb = new StringBuilder();
+        for(int i = 0; i < 20; i++){
+            String aChar = hexDigits[new Random().nextInt(hexDigits.length)];
+            sb.append(aChar);
+        }
+        return sb.toString();
+    }
 
     public PasswordEncoder(Object salt) {
         this(salt, MD5);
@@ -117,11 +131,12 @@ public class PasswordEncoder {
     }
 
     public static void main(String[] args) {
-        // System.out.println(UUID.randomUUID().toString().replace("-",""));
+
         //  使用了加密盐的MD5码
         PasswordEncoder encoderMd5 = new PasswordEncoder("53caae756e414182914a", "MD5");
+        String rawPass="123456";
+        String encPass= encoderMd5.encode(rawPass);
 
-        String encode = encoderMd5.encode("lbb");
-        System.out.println(encode);
+        System.out.println(encoderMd5.matches(encPass,rawPass));
     }
 }

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.edu.guet.springbootdemo.mapper.PurchaseMapper">
+
+    <resultMap id="purchaseContractMapper" type="cn.edu.guet.springbootdemo.bean.PurchaseContract">
+        <result property="id" column="id"/>
+        <result property="purchaseContractNo" column="purchase_contract_no"/>
+        <result property="customerEnterpriseName" column="customer_enterprise_name"/>
+        <result property="ownCompanyName" column="own_company_name"/>
+        <result property="squeezeSeason" column="squeeze_season"/>
+        <result property="inboundTime" column="inbound_time"/>
+        <result property="goodsName" column="goods_name"/>
+        <result property="goodsCount" column="goods_count"/>
+        <result property="goodsUnit" column="goods_unit"/>
+        <result property="goodsUnitPrice" column="goods_unit_price"/>
+        <result property="paymentAmount" column="payment_amount"/>
+        <result property="unpaidAmount" column="unpaid_amount"/>
+        <result property="contractPhoto" column="contract_photo"/>
+        <result property="pigeonhole" column="pigeonhole"/>
+        <result property="relationPaymentExistState" column="relation_payment_exist_state"/>
+        <result property="relationPaymentAuditState" column="relation_payment_audit_state"/>
+        <result property="relationLogisticsExistState" column="relation_logistics_exist_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <result property="lastUpdateBy" column="last_update_by"/>
+    </resultMap>
+
+    <resultMap id="purchasePaymentContractMapper" type="cn.edu.guet.springbootdemo.bean.PurchasePaymentContract">
+        <result property="id" column="id"/>
+        <result property="purchaseContractNo" column="purchase_contract_no"/>
+        <result property="cashier" column="cashier"/>
+        <result property="paymentCount" column="payment_count"/>
+        <result property="paymentTime" column="payment_time"/>
+        <result property="paymentPhoto" column="payment_photo"/>
+        <result property="financeStaff" column="finance_staff"/>
+        <result property="financeState" column="finance_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <result property="lastUpdateBy" column="last_update_by"/>
+    </resultMap>
+
+    <resultMap id="purchaseDirectorStateMapper" type="cn.edu.guet.springbootdemo.bean.PurchaseDirectorState">
+        <result property="id" column="id"/>
+        <result property="purchasePaymentContractId" column="purchase_payment_contract_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="state" column="state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <result property="lastUpdateBy" column="last_update_by"/>
+    </resultMap>
+
+    <select id="getAllPurchaseContract" resultMap="purchaseContractMapper">
+        SELECT * FROM purchase_contract
+    </select>
+
+    <select id="getPurchaseContractById" parameterType="cn.edu.guet.springbootdemo.bean.PurchaseContract" resultMap="purchaseContractMapper">
+        SELECT * FROM purchase_contract WHERE id=#{id}
+    </select>
+
+    <insert id="addPurchaseContract" parameterType="cn.edu.guet.springbootdemo.bean.PurchaseContract">
+        INSERT INTO purchase_contract(purchase_contract_no, customer_enterprise_name,
+                                      own_company_name, squeeze_season, inbound_time, goods_name, goods_count,
+                                      goods_unit, goods_unit_price, payment_amount, unpaid_amount, contract_photo,
+                                      pigeonhole, relation_payment_exist_state, relation_payment_audit_state,
+                                      relation_logistics_exist_state, create_time, create_by, last_update_time, last_update_by)
+            VALUE (#{purchaseContractNo},#{customerEnterpriseName},
+                   #{ownCompanyName},#{squeezeSeason},#{inboundTime},#{goodsName},#{goodsCount},
+                   #{goodsUnit},#{goodsUnitPrice},#{paymentAmount},#{unpaidAmount},#{contractPhoto},
+                   #{pigeonhole},#{relationPaymentExistState},#{relationPaymentAuditState},#{relationLogisticsExistState},
+                   #{createTime},#{createBy},#{lastUpdateTime},#{lastUpdateBy})
+    </insert>
+
+    <update id="updatePurchaseContract" parameterType="cn.edu.guet.springbootdemo.bean.PurchaseContract">
+        UPDATE purchase_contract
+        SET purchase_contract_no=#{purchaseContractNo},customer_enterprise_name=#{customerEnterpriseName},
+            own_company_name=#{ownCompanyName},squeeze_season=#{squeezeSeason},inbound_time=#{inboundTime},goods_name=#{goodsName},goods_count=#{goodsCount},
+            goods_unit=#{goodsUnit},goods_unit_price=#{goodsUnitPrice},payment_amount=#{paymentAmount},unpaid_amount=#{unpaidAmount},contract_photo=#{contractPhoto},
+            pigeonhole=#{pigeonhole},relation_payment_exist_state=#{relationPaymentExistState},relation_payment_audit_state=#{relationPaymentAuditState},relation_logistics_exist_state=#{relationLogisticsExistState},
+            last_update_time=NOW(),last_update_by=#{lastUpdateBy}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deletePurchaseContractById" parameterType="int">
+        DELETE FROM purchase_contract WHERE id=#{id}
+    </delete>
+
+
+    <select id="getPurchasePaymentContract" resultMap="purchaseContractMapper">
+        SELECT * FROM purchase_contract AS pc, purchase_payment_contract AS ppc
+        WHERE pc.purchase_contract_no=ppc.purchase_contract_no
+    </select>
+
+    <delete id="deletePurchasePaymentContractById" parameterType="int">
+        DELETE FROM purchase_payment_contract WHERE id=#{id}
+    </delete>
+
+    <insert id="addPurchasePaymentContract" parameterType="cn.edu.guet.springbootdemo.bean.PurchasePaymentContract">
+        INSERT INTO purchase_payment_contract(purchase_contract_no, cashier,
+                                              payment_count,payment_time,payment_photo,finance_staff,finance_state,
+                                              create_time,create_by)
+            VALUE (#{purchaseContractNo},#{cashier},#{paymentCount},#{paymentTime},
+                   #{paymentPhoto},#{financeStaff},#{financeState},NOW(),#{createBy})
+    </insert>
+
+
+
+
+    <select id="getPurchaseDirectorState" resultMap="purchaseContractMapper">
+        SELECT * FROM purchase_director_state AS pds, purchase_payment_contract AS ppc,
+                      purchase_contract AS pc
+        WHERE pds.purchase_payment_contract_id=ppc.id
+        AND ppc.purchase_contract_no=pc.purchase_contract_no
+    </select>
+
+</mapper>
