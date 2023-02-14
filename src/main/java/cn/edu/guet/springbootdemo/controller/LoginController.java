@@ -51,7 +51,6 @@ public class LoginController {
                 loginVo.setPassword(encPass);
                 result=loginService.login(loginVo);
             }
-
             if (result != null) {
                 System.out.println("登入成功");
                 return new Result(200, "登入成功！success",result);

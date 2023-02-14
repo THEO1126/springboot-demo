@@ -25,6 +25,8 @@ public interface PurchaseService {
     void deletePurchasePaymentContractById(int id);
     void addPurchasePaymentContract(PurchasePaymentContract purchasePaymentContract);
 
-
     List<PurchaseContract> getPurchaseDirectorState();
+
+    List<PurchaseContract> getPurchaseContractByPage(int fromIndex,int pageSize);
+    int getPurchaseContractTotalPage();
 }

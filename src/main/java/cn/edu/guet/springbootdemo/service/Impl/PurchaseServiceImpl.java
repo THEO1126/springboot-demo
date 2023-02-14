@@ -65,4 +65,14 @@ public class PurchaseServiceImpl implements PurchaseService {
     public List<PurchaseContract> getPurchaseDirectorState() {
         return purchaseMapper.getPurchaseDirectorState();
     }
+
+    @Override
+    public List<PurchaseContract> getPurchaseContractByPage(int fromIndex, int pageSize) {
+        return purchaseMapper.getPurchaseContractByPage(fromIndex,pageSize);
+    }
+
+    @Override
+    public int getPurchaseContractTotalPage() {
+        return purchaseMapper.getPurchaseContractTotalPage();
+    }
 }
