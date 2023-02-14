@@ -31,4 +31,6 @@ public interface UserService {
 
     List<User> searchUserList(String name,String nickName,int fromIndex,int pageSize);
     int searchUserListTotalPage(String name,String nickName);
+
+    List<User> getUserByUserId(int userId);
 }

@@ -40,6 +40,18 @@ public class UserController {
         }
     }
 
+    @GetMapping("/getUserByUserId")
+    public Result getUserByUserId(int userId) {
+        List<User> userList=userService.getUserByUserId(userId);
+        if (userList!=null) {
+            User user=userList.get(0);
+            return new Result(200, "成功", user);
+        }else{
+            return new Result(201,"失败",null);
+        }
+    }
+
+
     @GetMapping("/getPermissionByUserId")
     public Result getPermissionByUserId(int userId){
         List<Permission> permissionList = null;
