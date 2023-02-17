@@ -18,8 +18,9 @@
         WHERE name=#{username}
     </select>
 
-    <select id="login" resultMap="loginMap" parameterType="cn.edu.guet.springbootdemo.bean.User">
-        SELECT * FROM sys_user WHERE name=#{username} AND password=#{password}
+    <select id="login" resultMap="loginMap" parameterType="cn.edu.guet.springbootdemo.bean.LoginVo">
+        SELECT id,name
+        FROM sys_user WHERE name=#{username} AND password=#{password}
     </select>
 
 </mapper>

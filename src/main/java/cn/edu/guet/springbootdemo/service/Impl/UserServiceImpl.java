@@ -103,4 +103,9 @@ public class UserServiceImpl implements UserService {
     public int searchUserListTotalPage(String name, String nickName) {
         return userMapper.searchUserListTotalPage(name,nickName);
     }
+
+    @Override
+    public List<User> getUserByUserId(int userId) {
+        return userMapper.getUserByUserId(userId);
+    }
 }

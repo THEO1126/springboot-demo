@@ -45,6 +45,16 @@
         SELECT EXISTS(SELECT * FROM users WHERE username=#{username})
     </select>
 
+
+    <!--  根据userId 获取用户 -->
+    <select id="getUserByUserId" parameterType="int" resultMap="userMap">
+        SELECT su.name username, su.nick_name ,sur.role_id roleId,sr.`name` roleName
+        FROM sys_user su,sys_user_role sur,sys_role sr
+        WHERE su.id=sur.user_id
+        AND sur.role_id=sr.id
+        AND user_id=#{userId}
+    </select>
+
     <!--  根据id获取权限 首先使用范围查询定位 id (或者索引),再使用索引进行定位数据，即先 select id，然后在 select *,速度会提升 -->
     <select id="getPermissionByUserId" resultMap="permissionMap" parameterType="int">
         SELECT sm.*

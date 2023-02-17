@@ -12,6 +12,24 @@ public class LoginVo {
     private String password;
     private String salt;
     private boolean rememberMe;
+    private String loginToken;  // token
+
+    public String getLoginToken() {
+        return loginToken;
+    }
+
+    public LoginVo(int userId, String username, String password, String salt, boolean rememberMe, String loginToken) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.salt = salt;
+        this.rememberMe = rememberMe;
+        this.loginToken = loginToken;
+    }
+
+    public void setLoginToken(String loginToken) {
+        this.loginToken = loginToken;
+    }
 
     public LoginVo(int userId, String username, String password, String salt, boolean rememberMe) {
         this.userId = userId;
